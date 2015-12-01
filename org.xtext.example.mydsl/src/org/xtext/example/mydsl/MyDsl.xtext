@@ -1,0 +1,28 @@
+grammar org.xtext.example.mydsl.MyDsl with org.eclipse.xtext.common.Terminals
+
+generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
+
+Model:
+  (types+=Type)*;
+
+Type:
+  TypeDef | Interface | Attribute;
+
+TypeDef:
+  "typedef" name=ID ("mapsto" mappedType=JAVAID)?;
+
+JAVAID:
+  name=ID("." ID)*
+  ;
+
+
+Interface:
+  "interface" name=ID ("extends" superInterface=[Interface])?
+  "{"
+    (attributes+=Attribute)*
+  "}";
+
+
+Attribute:
+	type=[Type] (many?="*")? name=ID
+;
